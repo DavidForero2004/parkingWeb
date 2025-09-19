@@ -1,0 +1,32 @@
+
+.loader-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loader-dots span {
+  width: 1rem;
+  height: 1rem;
+  background: #fff;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.loader-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loader-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  to {
+    transform: translateY(-0.8rem);
+    opacity: 1;
+  }
+}
