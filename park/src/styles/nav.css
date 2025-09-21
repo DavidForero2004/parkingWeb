@@ -1,0 +1,89 @@
+/* Estilos generales */
+.navbar {
+  background-color: #111827; /* gris oscuro */
+  color: white;
+  padding: 0.5rem 1rem;
+  position: fixed;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width:100%;
+  z-index: 50;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #60a5fa; /* azul */
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Enlaces */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.username {
+  color: #d1d5db; /* gris claro */
+}
+
+/* Botón logout */
+.logout-btn {
+  background-color: #ef4444;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Botón móvil */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    background-color: #1f2937;
+    flex-direction: column;
+    padding: 1rem;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
