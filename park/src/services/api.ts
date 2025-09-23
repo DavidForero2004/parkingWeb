@@ -49,7 +49,7 @@ export async function logOut({ endpoint }: PropsLogout) {
 
     const data = await res.json();
 
-    // 🔑 Limpieza de sesión
+    //Limpieza de sesión
     localStorage.removeItem("token");
     sessionStorage.removeItem("data");
 

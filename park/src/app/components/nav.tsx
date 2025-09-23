@@ -5,15 +5,12 @@ import { useRouter } from "next/navigation";
 import { logOut } from "@/services/api";
 import "../../styles/nav.css";
 
-type NavBarProps = {
-  nombre: string;
-};
 
-export default function NavBar({ nombre }: NavBarProps) {
+
+export default function NavBar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const username = nombre ?? "Invitado";
-
+ 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -35,17 +32,16 @@ export default function NavBar({ nombre }: NavBarProps) {
       <div className="nav-container">
         {/* Logo */}
         <div className="nav-logo" onClick={() => router.push("/dashboard")}>
-          DParking
+          D
         </div>
 
         {/* Menu desktop */}
         <div className={`nav-links ${isOpen ? "open" : ""}`}>
-          <span className="username">👤 {username}</span>
-          {nombre && (
+        
             <button className="logout-btn" onClick={handleLogout}>
               Cerrar sesión
             </button>
-          )}
+     
         </div>
 
         {/* Botón móvil */}

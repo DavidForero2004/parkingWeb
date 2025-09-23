@@ -3,7 +3,6 @@
   background-color: #111827; /* gris oscuro */
   color: white;
   padding: 0.5rem 1rem;
-  position: fixed;
   box-sizing: border-box;
   top: 0;
   left: 0;
@@ -42,7 +41,7 @@
 
 /* Botón logout */
 .logout-btn {
-  background-color: #ef4444;
+  background-color: #1a2130;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
