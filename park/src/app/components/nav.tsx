@@ -1,35 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { logOut } from "@/services/api";
 import "../../styles/nav.css";
+import { useToast } from "@/hook/useToast";
+import { typeRoute } from "@/hook/rootLogin";
 
 export default function NavBar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const { showToast } = useToast();
 
   // Función para validar expiración de token
-  const checkTokenExpiration = () => {
+  const checkTokenExpiration = useCallback(() => {
     const token = localStorage.getItem("token");
     const createdAt = localStorage.getItem("token_createdAt");
+    const park = localStorage.getItem("park") || "";; // obtenemos park
 
     if (!token || !createdAt) {
-      router.push("/login/adminPark");
+      const route = typeRoute(park); // obtenemos la ruta según park
+      setTimeout(() => router.push(route || ""), 100);
       return;
     }
 
     const elapsedMs = Date.now() - parseInt(createdAt);
-    const elapsedMinutes = elapsedMs / 1000 / 60 / 60 ;
+    const elapsedHours = elapsedMs / 1000 / 60 / 60;
 
-    if (elapsedMinutes >= 1) { // más de 1 hora
-      alert("Tu sesión ha expirado. Por favor vuelve a iniciar sesión.");
+    if (elapsedHours >= 1) {
+      showToast(
+        "Tu sesión ha expirado. Por favor vuelve a iniciar sesión.",
+        "alert"
+      );
       localStorage.removeItem("token");
       localStorage.removeItem("token_createdAt");
       sessionStorage.removeItem("data");
-      router.push("/login/adminPark");
+
+      const route = typeRoute(park);
+      setTimeout(() => router.push(route || ""), 100); 
     }
-  };
+  }, [router, showToast]);
 
   useEffect(() => {
     // Revisar al cargar el componente
@@ -39,14 +49,19 @@ export default function NavBar() {
     const interval = setInterval(checkTokenExpiration, 10000);
 
     return () => clearInterval(interval);
-  }, );
+  }, [checkTokenExpiration]);
 
   const handleLogout = async () => {
     try {
       await logOut({ endpoint: "/logOut" });
-      router.push("/login/adminPark");
-    } catch (error) {
-      console.error("Error cerrando sesión:", error);
+      showToast("Sesión cerrada", "alert");
+      setTimeout(() => {
+        const park = localStorage.getItem("park") || "";;
+        const route = typeRoute(park);
+        router.push(route || "");
+      }, 100); 
+    } catch {
+      showToast("Error al cerrar sesión", "alert");
     }
   };
 

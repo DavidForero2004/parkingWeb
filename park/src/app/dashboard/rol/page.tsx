@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { deleteRol, getRols, updateRol } from "@/services/api"; 
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useToast } from "@/hook/useToast";
 
 interface Rol {
   id: number;
@@ -10,39 +11,38 @@ interface Rol {
 }
 
 export default function RolesPage() {
+  const { showToast } = useToast(); 
+
   const [roles, setRoles] = useState<Rol[]>([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Estado para modales
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  // Estado para el rol seleccionado
   const [selectedRol, setSelectedRol] = useState<Rol | null>(null);
   const [editNombre, setEditNombre] = useState("");
 
-  // === Cargar roles desde API ===
   useEffect(() => {
     const fetchData = async () => {
       const data = await getRols({ endpoint: "/rol" });
-      if (data) setRoles(data);
+      if (data) {
+        setRoles(data);
+      } else {
+        showToast("Error al cargar los roles", "error");
+      }
     };
     fetchData();
-  }, []);
+  },);
 
-  // === Filtro de búsqueda ===
   const filtered = roles.filter((rol) =>
     rol.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
-  // === Paginación ===
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = filtered.slice(startIndex, startIndex + itemsPerPage);
 
-  // === Acciones ===
   const openEditModal = (rol: Rol) => {
     setSelectedRol(rol);
     setEditNombre(rol.nombre);
@@ -54,44 +54,46 @@ export default function RolesPage() {
     setShowDeleteModal(true);
   };
 
- const handleUpdate = async () => {
-  if (selectedRol) {
-    const updated = await updateRol({
-      endpoint: "/rol/update", 
-      id: selectedRol.id,
-      nombre: editNombre,
-    });
+  const handleUpdate = async () => {
+    if (selectedRol) {
+      const updated = await updateRol({
+        endpoint: "/rol/update", 
+        id: selectedRol.id,
+        nombre: editNombre,
+      });
 
-    if (updated) {
-      // actualizar tabla en frontend
-      setRoles(roles.map((rol) =>
-        rol.id === selectedRol.id ? { ...rol, nombre: editNombre } : rol
-      ));
-      setShowEditModal(false);
+      if (updated) {
+        setRoles(
+          roles.map((rol) =>
+            rol.id === selectedRol.id ? { ...rol, nombre: editNombre } : rol
+          )
+        );
+        setShowEditModal(false);
+        showToast("Rol actualizado correctamente", "success"); // <-- Mensaje
+      } else {
+        showToast("Error al actualizar el rol", "error"); // <-- Mensaje
+      }
     }
-  }
-};
-
+  };
 
   const handleDelete = async () => {
-  if (selectedRol) {
-    const response = await deleteRol({ endpoint: "/rol/delete", id: selectedRol.id });
+    if (selectedRol) {
+      const response = await deleteRol({ endpoint: "/rol/delete", id: selectedRol.id });
 
-    if (response) {
-      setRoles(roles.filter((rol) => rol.id !== selectedRol.id));
-      setShowDeleteModal(false);
-    } else {
-      alert("Error al eliminar el rol");
+      if (response) {
+        setRoles(roles.filter((rol) => rol.id !== selectedRol.id));
+        setShowDeleteModal(false);
+        showToast("Rol eliminado correctamente", "success"); // <-- Mensaje
+      } else {
+        showToast("Error al eliminar el rol", "error"); // <-- Mensaje
+      }
     }
-  }
-};
-
+  };
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Gestión de Roles</h1>
 
-      {/* Buscador */}
       <input
         type="text"
         placeholder="Buscar rol..."
@@ -100,7 +102,6 @@ export default function RolesPage() {
         className="mb-4 w-full p-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
-      {/* Tabla */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white text-gray-800 rounded-md shadow">
           <thead>
@@ -113,17 +114,9 @@ export default function RolesPage() {
           <tbody>
             {paginatedData.map((rol, index) => (
               <tr key={rol.id} className="border-b border-gray-300">
-                {/* ID autoincremental visible */}
                 <td className="px-4 py-2">{startIndex + index + 1}</td>
-
-                {/* Nombre */}
                 <td className="px-4 py-2">{rol.nombre}</td>
-
-                {/* Botones */}
                 <td className="px-4 py-2 flex justify-center gap-3">
-                  {/* ID original oculto */}
-                  <input type="hidden" value={rol.id} />
-
                   <button
                     onClick={() => openEditModal(rol)}
                     className="text-blue-500 hover:text-blue-700 cursor-pointer"
@@ -182,10 +175,7 @@ export default function RolesPage() {
                 handleUpdate();
               }}
             >
-              {/* ID oculto */}
               <input type="hidden" value={selectedRol.id} />
-
-              {/* Nombre */}
               <div className="mb-4">
                 <label className="block mb-1">Nombre</label>
                 <input
@@ -195,7 +185,6 @@ export default function RolesPage() {
                   className="w-full border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
@@ -222,10 +211,7 @@ export default function RolesPage() {
           <div className="bg-white text-gray-800 p-6 rounded-md w-96 shadow-lg">
             <h2 className="text-xl font-bold mb-4">Eliminar Rol</h2>
             <p>¿Seguro que deseas eliminar el rol: <b>{selectedRol.nombre}</b>?</p>
-
-            {/* ID oculto */}
             <input type="hidden" value={selectedRol.id} />
-
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setShowDeleteModal(false)}

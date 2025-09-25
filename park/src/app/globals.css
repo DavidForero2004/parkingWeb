@@ -9,3 +9,7 @@ body {
   background: #111;
   overflow: hidden;
 }
+
+[data-rht-toaster] {
+  z-index: 99999 !important; 
+}

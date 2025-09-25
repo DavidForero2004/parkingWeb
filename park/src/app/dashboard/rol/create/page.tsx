@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { createRol } from "@/services/api";
 import { useRouter } from "next/navigation";
-
+import { useToast } from "@/hook/useToast"; 
 export default function CreateRolPage() {
   const [nombre, setNombre] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { showToast } = useToast(); // <-- Inicializa el hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,15 +22,15 @@ export default function CreateRolPage() {
     setLoading(false);
 
     if (result) {
-      alert("Rol creado exitosamente");
+      showToast("Rol creado exitosamente", "success"); // <-- Mensaje de éxito
       router.push("/dashboard/rol");
     } else {
-      alert("Error al crear el rol");
+      showToast("Error al crear el rol", "error"); // <-- Mensaje de error
     }
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100  h-screen">
+    <div className="flex items-center justify-center bg-gray-100 h-screen">
       <div className="bg-white text-gray-800 p-6 rounded-md w-full max-w-md shadow-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Crear Rol</h1>
 
