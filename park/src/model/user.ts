@@ -1,4 +1,5 @@
 export type PropsUser = {
+  id?:number,
   nombre?: string, 
   apellido?: string, 
   cedula?: string,
