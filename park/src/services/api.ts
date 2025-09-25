@@ -64,7 +64,6 @@ export async function getRols(props: PropsRol) {
   const { endpoint } = props;
 
     const token = localStorage.getItem("token");
-console.log(token)
   try {
     const res = await fetch(`${APIURL}${endpoint}`, {
       method: "GET",

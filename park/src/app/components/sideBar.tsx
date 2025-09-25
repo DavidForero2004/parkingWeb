@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import "@/styles/sidebar.css"
 import {
   FaPlus,
   FaList,
@@ -18,84 +19,61 @@ import {
 
 export default function Sidebar() {
   const pathname = usePathname();
-
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const toggleMenu = (menu: string) => {
     setOpenMenu(openMenu === menu ? null : menu);
   };
 
+  const menuItemClass = (href: string) =>
+    pathname === href ? "menu-link active" : "menu-link";
+
   return (
-    <aside className="w-64 min-h-screen bg-gray-900 text-white p-4">
-      <h2 className="text-2xl font-bold mb-6">DParking</h2>
-      {/* === ROLES === */}
+    <aside className="sidebar">
+      <h2 className="sidebar-title">DParking</h2>
+
+      {/* ROLES */}
       <li>
-        <button
-          onClick={() => toggleMenu("roles")}
-          className="flex w-full items-center justify-between px-3 py-2 rounded hover:bg-gray-800 transition-colors"
-        >
-          <span className="flex items-center gap-2">
+        <button className="menu-btn" onClick={() => toggleMenu("roles")}>
+          <span className="menu-btn-text">
             <FaIdBadge /> Roles
           </span>
           <FaChevronDown
-            className={`transition-transform duration-300 ${
-              openMenu === "roles" ? "rotate-180" : ""
-            }`}
+            className={`chevron ${openMenu === "roles" ? "rotate" : ""}`}
           />
         </button>
-        <ul
-          className={`ml-6 mt-2 space-y-1 text-sm overflow-hidden transition-all duration-300 ${
-            openMenu === "roles" ? "max-h-24" : "max-h-0"
-          }`}
-        >
+        <ul className={`submenu ${openMenu === "roles" ? "open" : ""}`}>
           <li>
-            <Link
-              href="/dashboard/rol"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/rol" ? "bg-gray-700" : ""
-              }`}
-            >
+            <Link href="/dashboard/rol" className={menuItemClass("/dashboard/rol")}>
               <FaList /> Lista de Roles
             </Link>
           </li>
           <li>
             <Link
               href="/dashboard/rol/create"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/roles/crear" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/rol/create")}
             >
               <FaPlus /> Crear Rol
             </Link>
           </li>
         </ul>
       </li>
-      {/* === USUARIOS === */}
+
+      {/* USUARIOS */}
       <li>
-        <button
-          onClick={() => toggleMenu("usuarios")}
-          className="flex w-full items-center justify-between px-3 py-2 rounded hover:bg-gray-800 transition-colors"
-        >
-          <span className="flex items-center gap-2">
+        <button className="menu-btn" onClick={() => toggleMenu("usuarios")}>
+          <span className="menu-btn-text">
             <FaUserFriends /> Usuarios
           </span>
           <FaChevronDown
-            className={`transition-transform duration-300 ${
-              openMenu === "usuarios" ? "rotate-180" : ""
-            }`}
+            className={`chevron ${openMenu === "usuarios" ? "rotate" : ""}`}
           />
         </button>
-        <ul
-          className={`ml-6 mt-2 space-y-1 text-sm overflow-hidden transition-all duration-300 ${
-            openMenu === "usuarios" ? "max-h-24" : "max-h-0"
-          }`}
-        >
+        <ul className={`submenu ${openMenu === "usuarios" ? "open" : ""}`}>
           <li>
             <Link
               href="/dashboard/user"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/user" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/user")}
             >
               <FaUserFriends /> Lista de Usuarios
             </Link>
@@ -103,41 +81,29 @@ export default function Sidebar() {
           <li>
             <Link
               href="/dashboard/user/crear"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/user/crear" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/user/crear")}
             >
               <FaPlus /> Crear Usuario
             </Link>
           </li>
         </ul>
       </li>
-      {/* === TIPOS DE VEHÍCULO === */}
+
+      {/* TIPOS DE VEHÍCULO */}
       <li>
-        <button
-          onClick={() => toggleMenu("vehiculos")}
-          className="flex w-full items-center justify-between px-3 py-2 rounded hover:bg-gray-800 transition-colors"
-        >
-          <span className="flex items-center gap-2">
+        <button className="menu-btn" onClick={() => toggleMenu("vehiculos")}>
+          <span className="menu-btn-text">
             <FaCar /> Tipos de Vehículo
           </span>
           <FaChevronDown
-            className={`transition-transform duration-300 ${
-              openMenu === "vehiculos" ? "rotate-180" : ""
-            }`}
+            className={`chevron ${openMenu === "vehiculos" ? "rotate" : ""}`}
           />
         </button>
-        <ul
-          className={`ml-6 mt-2 space-y-1 text-sm overflow-hidden transition-all duration-300 ${
-            openMenu === "vehiculos" ? "max-h-24" : "max-h-0"
-          }`}
-        >
+        <ul className={`submenu ${openMenu === "vehiculos" ? "open" : ""}`}>
           <li>
             <Link
               href="/dashboard/vehiculos"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/vehiculos" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/vehiculos")}
             >
               <FaList /> Lista de Tipos
             </Link>
@@ -145,9 +111,7 @@ export default function Sidebar() {
           <li>
             <Link
               href="/dashboard/vehiculos/crear"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/vehiculos/crear" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/vehiculos/crear")}
             >
               <FaPlus /> Crear Tipo
             </Link>
@@ -155,32 +119,21 @@ export default function Sidebar() {
         </ul>
       </li>
 
-      {/* === TARIFAS === */}
+      {/* TARIFAS */}
       <li>
-        <button
-          onClick={() => toggleMenu("tarifas")}
-          className="flex w-full items-center justify-between px-3 py-2 rounded hover:bg-gray-800 transition-colors"
-        >
-          <span className="flex items-center gap-2">
+        <button className="menu-btn" onClick={() => toggleMenu("tarifas")}>
+          <span className="menu-btn-text">
             <FaTag /> Tarifas
           </span>
           <FaChevronDown
-            className={`transition-transform duration-300 ${
-              openMenu === "tarifas" ? "rotate-180" : ""
-            }`}
+            className={`chevron ${openMenu === "tarifas" ? "rotate" : ""}`}
           />
         </button>
-        <ul
-          className={`ml-6 mt-2 space-y-1 text-sm overflow-hidden transition-all duration-300 ${
-            openMenu === "tarifas" ? "max-h-24" : "max-h-0"
-          }`}
-        >
+        <ul className={`submenu ${openMenu === "tarifas" ? "open" : ""}`}>
           <li>
             <Link
               href="/dashboard/tarifas"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/tarifas" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/tarifas")}
             >
               <FaList /> Lista de Tarifas
             </Link>
@@ -188,9 +141,7 @@ export default function Sidebar() {
           <li>
             <Link
               href="/dashboard/tarifas/crear"
-              className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                pathname === "/dashboard/tarifas/crear" ? "bg-gray-700" : ""
-              }`}
+              className={menuItemClass("/dashboard/tarifas/crear")}
             >
               <FaPlus /> Crear Tarifa
             </Link>
@@ -198,36 +149,25 @@ export default function Sidebar() {
         </ul>
       </li>
 
-      <ul className="space-y-2">
-        {/* === MENSUALIDADES === */}
+      {/* MENSAJES, MÉTODOS DE PAGO, TRANSACCIONES */}
+      <ul className="menu-list">
         <li>
           <button
+            className="menu-btn"
             onClick={() => toggleMenu("mensualidades")}
-            className="flex w-full items-center justify-between px-3 py-2 rounded hover:bg-gray-800 transition-colors"
           >
-            <span className="flex items-center gap-2">
-              <FaList />
-              Mensualidades
+            <span className="menu-btn-text">
+              <FaList /> Mensualidades
             </span>
             <FaChevronDown
-              className={`transition-transform duration-300 ${
-                openMenu === "mensualidades" ? "rotate-180" : ""
-              }`}
+              className={`chevron ${openMenu === "mensualidades" ? "rotate" : ""}`}
             />
           </button>
-          <ul
-            className={`ml-6 mt-2 space-y-1 text-sm overflow-hidden transition-all duration-300 ${
-              openMenu === "mensualidades" ? "max-h-40" : "max-h-0"
-            }`}
-          >
+          <ul className={`submenu ${openMenu === "mensualidades" ? "open" : ""}`}>
             <li>
               <Link
                 href="/dashboard/mensualidades/crear"
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                  pathname === "/dashboard/mensualidades/crear"
-                    ? "bg-gray-700"
-                    : ""
-                }`}
+                className={menuItemClass("/dashboard/mensualidades/crear")}
               >
                 <FaPlus /> Crear Mensualidad
               </Link>
@@ -235,9 +175,7 @@ export default function Sidebar() {
             <li>
               <Link
                 href="/dashboard/mensualidades"
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                  pathname === "/dashboard/mensualidades" ? "bg-gray-700" : ""
-                }`}
+                className={menuItemClass("/dashboard/mensualidades")}
               >
                 <FaList /> Ver Mensualidades
               </Link>
@@ -245,11 +183,7 @@ export default function Sidebar() {
             <li>
               <Link
                 href="/dashboard/mensualidades/mia"
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                  pathname === "/dashboard/mensualidades/mia"
-                    ? "bg-gray-700"
-                    : ""
-                }`}
+                className={menuItemClass("/dashboard/mensualidades/mia")}
               >
                 <FaUser /> Mi Mensualidad
               </Link>
@@ -257,32 +191,24 @@ export default function Sidebar() {
           </ul>
         </li>
 
-        {/* === MÉTODOS DE PAGO === */}
+        {/* MÉTODOS DE PAGO */}
         <li>
           <button
+            className="menu-btn"
             onClick={() => toggleMenu("metodosPago")}
-            className="flex w-full items-center justify-between px-3 py-2 rounded hover:bg-gray-800 transition-colors"
           >
-            <span className="flex items-center gap-2">
+            <span className="menu-btn-text">
               <FaCreditCard /> Métodos de Pago
             </span>
             <FaChevronDown
-              className={`transition-transform duration-300 ${
-                openMenu === "metodosPago" ? "rotate-180" : ""
-              }`}
+              className={`chevron ${openMenu === "metodosPago" ? "rotate" : ""}`}
             />
           </button>
-          <ul
-            className={`ml-6 mt-2 space-y-1 text-sm overflow-hidden transition-all duration-300 ${
-              openMenu === "metodosPago" ? "max-h-24" : "max-h-0"
-            }`}
-          >
+          <ul className={`submenu ${openMenu === "metodosPago" ? "open" : ""}`}>
             <li>
               <Link
                 href="/dashboard/metodos"
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                  pathname === "/dashboard/metodos" ? "bg-gray-700" : ""
-                }`}
+                className={menuItemClass("/dashboard/metodos")}
               >
                 <FaList /> Lista de Métodos
               </Link>
@@ -290,9 +216,7 @@ export default function Sidebar() {
             <li>
               <Link
                 href="/dashboard/metodos/crear"
-                className={`flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-700 ${
-                  pathname === "/dashboard/metodos/crear" ? "bg-gray-700" : ""
-                }`}
+                className={menuItemClass("/dashboard/metodos/crear")}
               >
                 <FaPlus /> Crear Método
               </Link>
@@ -300,13 +224,11 @@ export default function Sidebar() {
           </ul>
         </li>
 
-        {/* === TRANSACCIONES (SOLO ENLACE) === */}
+        {/* TRANSACCIONES */}
         <li>
           <Link
             href="/dashboard/transacciones"
-            className={`flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-800 ${
-              pathname === "/dashboard/transacciones" ? "bg-gray-700" : ""
-            }`}
+            className={menuItemClass("/dashboard/transacciones")}
           >
             <FaMoneyBill /> Transacciones
           </Link>

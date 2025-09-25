@@ -1,0 +1,95 @@
+/* Sidebar base */
+.sidebar {
+  width: 16rem; /* 64 Tailwind */
+  min-height: 100vh;
+  background-color: #1f2937; /* gray-900 */
+  color: white;
+  padding: 1rem;
+  font-family: sans-serif;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* Menu button */
+.menu-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s;
+  margin-bottom: 0.25rem;
+}
+
+.menu-btn:hover {
+  background-color: #374151; /* gray-800 */
+}
+
+.menu-btn-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Chevron rotation */
+.chevron {
+  transition: transform 0.3s;
+}
+
+.chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* Submenu */
+.submenu {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu.open {
+  max-height: 12rem; /* ajustar según contenido */
+}
+
+/* Links */
+.menu-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.menu-link:hover {
+  background-color: #4b5563; /* gray-700 */
+}
+
+.menu-link.active {
+  background-color: #4b5563; /* gray-700 */
+}
+.sidebar ul {
+  margin-top: 0 !important;
+}
+
+/* Lista general */
+.menu-list {
+  margin-top: 1rem;
+  list-style: none;
+  padding: 0;
+  gap: 0.5rem;
+}
