@@ -31,12 +31,12 @@ export default function CreateRolPage() {
   };
 
   return (
-    <div className="create-rol-page">
-      <div className="form-container">
-        <h1>Crear Rol</h1>
+    <div className="page-container">
+      <div className="form-container-global">
+        <h1 className="modal-title-global">Crear Rol</h1>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group-global">
             <label>Nombre del Rol</label>
             <input
               type="text"
@@ -44,18 +44,19 @@ export default function CreateRolPage() {
               onChange={(e) => setNombre(e.target.value)}
               placeholder="Ej: Administrador"
               required
+              className="input-global"
             />
           </div>
 
-          <div className="form-buttons">
+          <div className="form-buttons-global">
             <button
               type="button"
               onClick={() => router.push("/dashboard/rol")}
-              className="cancel-btn"
+              className="btn-cancel-global"
             >
               Cancelar
             </button>
-            <button type="submit" disabled={loading} className="submit-btn">
+            <button type="submit" disabled={loading} className="btn-submit-global">
               {loading ? "Creando..." : "Guardar"}
             </button>
           </div>

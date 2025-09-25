@@ -15,7 +15,7 @@ export default function RolesPage() {
 
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const itemsPerPage = 10;
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -28,7 +28,7 @@ export default function RolesPage() {
       else showToast("Error al cargar los roles", "error");
     };
     fetchData();
-  },);
+  }, );
 
   // Filtrar roles
   const filtered = roles.filter((rol) =>
@@ -79,24 +79,24 @@ export default function RolesPage() {
   };
 
   return (
-    <div className="roles-page">
-      <h1>Gestión de Roles</h1>
+    <div className="page-container">
+      <h1 className="page-title">Gestión de Roles</h1>
 
       <input
         type="text"
-        placeholder="Buscar rol..."
+        placeholder="Buscar..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="search-input"
+        className="input-global"
       />
 
-      <div className="table-container">
-        <table className="roles-table">
+      <div className="table-wrapper">
+        <table className="table-global">
           <thead>
             <tr>
               <th>#</th>
               <th>Nombre</th>
-              <th>Acciones</th>
+              <th className="column-actions">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -105,11 +105,11 @@ export default function RolesPage() {
                 <tr key={rol.id}>
                   <td>{startIndex + index + 1}</td>
                   <td>{rol.nombre}</td>
-                  <td className="actions">
-                    <button onClick={() => openEditModal(rol)} className="edit-btn">
+                  <td className="actions-global">
+                    <button onClick={() => openEditModal(rol)} className="btn-edit-global">
                       <FaEdit />
                     </button>
-                    <button onClick={() => openDeleteModal(rol)} className="delete-btn">
+                    <button onClick={() => openDeleteModal(rol)} className="btn-delete-global">
                       <FaTrash />
                     </button>
                   </td>
@@ -117,8 +117,8 @@ export default function RolesPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={3} className="no-data">
-                  No se encontraron roles
+                <td colSpan={3} className="no-data-global">
+                  No se encontraron datos
                 </td>
               </tr>
             )}
@@ -127,7 +127,7 @@ export default function RolesPage() {
       </div>
 
       {/* Paginación */}
-      <div className="pagination">
+      <div className="pagination-global">
         <button
           onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
           disabled={currentPage === 1}
@@ -147,28 +147,29 @@ export default function RolesPage() {
 
       {/* MODAL EDITAR */}
       {showEditModal && selectedRol && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Editar Rol</h2>
+        <div className="modal-global">
+          <div className="modal-content-global">
+            <h2 className="modal-title-global">Editar</h2>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleUpdate();
               }}
             >
-              <div className="form-group">
+              <div className="form-group-global">
                 <label>Nombre</label>
                 <input
                   type="text"
                   value={editNombre}
                   onChange={(e) => setEditNombre(e.target.value)}
+                  className="input-global"
                 />
               </div>
-              <div className="modal-buttons">
-                <button type="button" onClick={() => setShowEditModal(false)}>
+              <div className="modal-buttons-global">
+                <button type="button" onClick={() => setShowEditModal(false)} className="btn-cancel-global">
                   Cancelar
                 </button>
-                <button type="submit">Guardar</button>
+                <button type="submit" className="btn-submit-global">Guardar</button>
               </div>
             </form>
           </div>
@@ -177,17 +178,15 @@ export default function RolesPage() {
 
       {/* MODAL ELIMINAR */}
       {showDeleteModal && selectedRol && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Eliminar Rol</h2>
+        <div className="modal-global">
+          <div className="modal-content-global">
+            <h2 className="modal-title-global">Eliminar</h2>
             <p>
-              ¿Seguro que deseas eliminar el rol: <b>{selectedRol.nombre}</b>?
+              ¿Seguro que deseas eliminar: <b>{selectedRol.nombre}</b>?
             </p>
-            <div className="modal-buttons">
-              <button onClick={() => setShowDeleteModal(false)}>Cancelar</button>
-              <button className="delete-btn" onClick={handleDelete}>
-                Eliminar
-              </button>
+            <div className="modal-buttons-global">
+              <button onClick={() => setShowDeleteModal(false)} className="btn-cancel-global">Cancelar</button>
+              <button onClick={handleDelete} className="btn-delete-global">Eliminar</button>
             </div>
           </div>
         </div>
