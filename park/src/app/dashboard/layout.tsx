@@ -3,6 +3,7 @@
 import NavBar from "@/app/components/nav";
 import Sidebar from "@/app/components/sideBar";
 import "../../styles/dashboard.css";
+import "../globals.css";
 
 export default function DashboardLayout({
   children,

@@ -30,8 +30,12 @@ export default function FormLogin({ numberPark, titlePark }: FormLoginProps) {
       });
 
       if (data.token) {
+        const now = new Date().getTime(); // timestamp actual en ms
+
+        // Guardar token y hora de creación
         localStorage.setItem("token", data.token);
-        sessionStorage.setItem("data",JSON.stringify(data.user))
+        localStorage.setItem("token_createdAt", now.toString());
+        sessionStorage.setItem("data", JSON.stringify(data.user));
         router.push("/dashboard");
       }
     } catch (error) {

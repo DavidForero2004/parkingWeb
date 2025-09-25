@@ -1,16 +1,13 @@
+import {PropsUser} from "@/model/user"
+
+import {PropsRol} from "@/model/rol"
+
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
-type PropsLogin = {
-  endpoint: string;
-  email: string;
-  password: string;
-};
 
-type PropsLogout = {
-  endpoint: string;
-};
+export async function login(props: PropsUser) {
+  const { endpoint, email, password } = props;
 
-export async function login({ endpoint, email, password }: PropsLogin) {
   try {
     const res = await fetch(`${APIURL}${endpoint}`, {
       method: "POST",
@@ -27,10 +24,10 @@ export async function login({ endpoint, email, password }: PropsLogin) {
   }
 }
 
-export async function logOut({ endpoint }: PropsLogout) {
+export async function logOut(props: PropsUser) {
+  const { endpoint } = props;
+  const token = localStorage.getItem("token");
   try {
-    const token = localStorage.getItem("token");
-
     if (!token) {
       throw new Error("No hay token guardado");
     }
@@ -57,5 +54,99 @@ export async function logOut({ endpoint }: PropsLogout) {
   } catch (error) {
     console.error("Error en logout:", error);
     throw error;
+  }
+}
+
+
+//** ROLES **/
+// MOSTRAR ROLES
+export async function getRols(props: PropsRol) {
+  const { endpoint } = props;
+
+    const token = localStorage.getItem("token");
+console.log(token)
+  try {
+    const res = await fetch(`${APIURL}${endpoint}`, {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+
+    if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error en getRols:", error);
+    return null;
+  }
+}
+
+// ACTUALIZAR ROL
+export async function updateRol(props: PropsRol) {
+  const { endpoint, id, nombre } = props;
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${APIURL}${endpoint}/${id}`, {
+      method: "PUT",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ nombre }),
+    });
+
+    if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error en updateRol:", error);
+    return null;
+  }
+}
+
+// ELIMINAR ROL
+export async function deleteRol(props: PropsRol) {
+  const { endpoint, id } = props;
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${APIURL}${endpoint}/${id}`, {
+      method: "DELETE",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+
+    if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error en deleteRol:", error);
+    return null;
+  }
+}
+
+// CREAR ROL
+export async function createRol(props: PropsRol) {
+  const { endpoint, nombre } = props;
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${APIURL}${endpoint}`, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ roles: [{ nombre }] }),
+    });
+
+    if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error en createRol:", error);
+    return null;
   }
 }

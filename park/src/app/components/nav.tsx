@@ -5,18 +5,41 @@ import { useRouter } from "next/navigation";
 import { logOut } from "@/services/api";
 import "../../styles/nav.css";
 
-
-
 export default function NavBar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
- 
-  useEffect(() => {
+
+  // Función para validar expiración de token
+  const checkTokenExpiration = () => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    const createdAt = localStorage.getItem("token_createdAt");
+
+    if (!token || !createdAt) {
+      router.push("/login/adminPark");
+      return;
+    }
+
+    const elapsedMs = Date.now() - parseInt(createdAt);
+    const elapsedMinutes = elapsedMs / 1000 / 60 / 60 ;
+
+    if (elapsedMinutes >= 1) { // más de 1 hora
+      alert("Tu sesión ha expirado. Por favor vuelve a iniciar sesión.");
+      localStorage.removeItem("token");
+      localStorage.removeItem("token_createdAt");
+      sessionStorage.removeItem("data");
       router.push("/login/adminPark");
     }
-  }, [router]);
+  };
+
+  useEffect(() => {
+    // Revisar al cargar el componente
+    checkTokenExpiration();
+
+    // Revisar cada 10 segundos para actualizar expiración
+    const interval = setInterval(checkTokenExpiration, 10000);
+
+    return () => clearInterval(interval);
+  }, );
 
   const handleLogout = async () => {
     try {
@@ -30,21 +53,16 @@ export default function NavBar() {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        {/* Logo */}
         <div className="nav-logo" onClick={() => router.push("/dashboard")}>
           D
         </div>
 
-        {/* Menu desktop */}
         <div className={`nav-links ${isOpen ? "open" : ""}`}>
-        
-            <button className="logout-btn" onClick={handleLogout}>
-              Cerrar sesión
-            </button>
-     
+          <button className="logout-btn" onClick={handleLogout}>
+            Cerrar sesión
+          </button>
         </div>
 
-        {/* Botón móvil */}
         <button
           className="menu-toggle"
           onClick={() => setIsOpen(!isOpen)}

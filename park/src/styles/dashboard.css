@@ -49,3 +49,6 @@
   background: #f9fafb;
   overflow-y: auto;
 }
+li{
+  list-style: none;
+}
