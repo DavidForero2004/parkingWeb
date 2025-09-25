@@ -16,7 +16,7 @@ export default function NavBar() {
   const checkTokenExpiration = useCallback(() => {
     const token = localStorage.getItem("token");
     const createdAt = localStorage.getItem("token_createdAt");
-    const park = localStorage.getItem("park") || "";; // obtenemos park
+    const park = localStorage.getItem("park") || ""; // obtenemos park
 
     if (!token || !createdAt) {
       const route = typeRoute(park); // obtenemos la ruta según park

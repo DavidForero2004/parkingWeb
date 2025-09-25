@@ -1,25 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
 import "../../styles/login.css";
+import { typeRoute } from "@/hook/rootLogin";
+import Link from "next/link";
 
-
-export default function FormRecovery({
-}) {
-
-   const [parkRef, setPark]  = useState<string | null>(null);
+export default function FormRecovery() {
+  const [backToLoginHref, setBackToLoginHref] = useState<string>("");
 
   useEffect(() => {
-    const park = sessionStorage.getItem('park');
-    setPark(park);
+    const park = localStorage.getItem("park") || "";
+    const route = typeRoute(park) || "";
+    setBackToLoginHref(route);
   }, []);
-  
-  console.log(parkRef);
 
   return (
     <div className="login-card recovery-card" id="recoveryCard">
       <h1>Reset your password</h1>
       <form id="recoveryForm">
-       
         <label htmlFor="recoveryEmail">Email address</label>
         <input
           type="email"
@@ -31,9 +28,9 @@ export default function FormRecovery({
       </form>
 
       <div className="options">
-        <a href="#" id="backToLogin">
+        <Link href={backToLoginHref} id="backToLogin">
           Back to login
-        </a>
+        </Link>
       </div>
     </div>
   );
