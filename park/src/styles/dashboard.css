@@ -59,10 +59,21 @@ li {
   padding: 1.5rem;
   font-family: sans-serif;
   color: #1f2937; 
+}
+.page-create-container {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+  font-family: sans-serif;
+  color: #1f2937; 
+}
+
+.data-container-global{
   text-align: center;
 }
 
 .page-container h1,
+.page-create-conatiner h1,
 .modal-title-global {
   font-size: 1.5rem;
   font-weight: bold;
@@ -133,7 +144,7 @@ li {
   color: #1d4ed8;
 }
 
-.btn-delete-global {
+.btn-delete-global  {
   color: #ef4444;
   cursor: pointer;
   background: none;
@@ -200,7 +211,8 @@ li {
   box-shadow: 0 10px 15px rgba(0,0,0,0.2);
 }
 
-.form-group-global {
+.form-group-global,
+.modal-content-global p {
   margin-bottom: 1rem;
 }
 
@@ -208,6 +220,8 @@ li {
   display: block;
   margin-bottom: 0.25rem;
   font-weight: 500;
+  text-align: left;
+  width: 100%;
 }
 
 .form-group-global input {
@@ -240,15 +254,23 @@ li {
   opacity: 0.9;
 }
 
-.modal-buttons-global .btn-delete-global {
+.modal-buttons-global .btn-delete-global{
+  background-color: #22c55e;
+  color: white;
+}
+.modal-buttons-global .btn-cancel-global {
   background-color: #ef4444;
   color: white;
 }
 
-.modal-buttons-global .btn-delete-global:hover {
+.modal-buttons-global .btn-delete-global:hover{
+  background-color: #16a34a
+}
+.modal-buttons-global .btn-cancel-global:hover {
   background-color: #b91c1c;
 }
 
+/*
 .modal-buttons-global .btn-cancel-global {
   background-color: #d1d5db;
   color: #374151;
@@ -257,7 +279,7 @@ li {
 .modal-buttons-global .btn-cancel-global:hover {
   background-color: #9ca3af;
 }
-
+*/
 /* Formulario reutilizable */
 .form-container-global {
   background-color: white;
@@ -290,20 +312,20 @@ li {
 }
 
 .form-buttons-global .btn-cancel-global {
-  background-color: #d1d5db;
-  color: #374151;
+  background-color: #ef4444;
+  color: white;
 }
 
 .form-buttons-global .btn-cancel-global:hover {
-  background-color: #9ca3af;
+  background-color: #b91c1c;
 }
 
-.form-buttons-global .btn-submit-global {
+.btn-submit-global {
   background-color: #2563eb;
   color: white;
 }
 
-.form-buttons-global .btn-submit-global:hover {
+.btn-submit-global:hover {
   background-color: #1d4ed8;
 }
 
