@@ -97,7 +97,21 @@ li {
 
 /* Tabla global */
 .table-wrapper {
+  height: 15em;
   overflow-x: auto;
+    scroll-behavior: smooth;
+     scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+.table-wrapper::before,
+.table-wrapper::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  right: 0;
+  height: 10px;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .table-global {
