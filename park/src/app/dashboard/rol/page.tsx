@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { deleteRol, getRols, updateRol } from "@/services/api";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useToast } from "@/hook/useToast";
-import { PropsRol } from "@/model/rol"; 
+import { PropsRol } from "@/model/rol";
 
 export default function RolesPage() {
   const { showToast } = useToast();
@@ -28,7 +28,7 @@ export default function RolesPage() {
       else showToast("Error al cargar los roles", "error");
     };
     fetchData();
-  }, );
+  },);
 
   // Filtrar roles
   const filtered = roles.filter((rol) =>
@@ -80,117 +80,119 @@ export default function RolesPage() {
 
   return (
     <div className="page-container">
-      <h1 className="page-title">Gestión de Roles</h1>
+      <div className="data-container-global">
+        <h1 className="page-title">Gestión de Roles</h1>
 
-      <input
-        type="text"
-        placeholder="Buscar..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="input-global"
-      />
+        <input
+          type="text"
+          placeholder="Buscar..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="input-global"
+        />
 
-      <div className="table-wrapper">
-        <table className="table-global">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th className="column-actions">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedData.length > 0 ? (
-              paginatedData.map((rol, index) => (
-                <tr key={rol.id}>
-                  <td>{startIndex + index + 1}</td>
-                  <td>{rol.nombre}</td>
-                  <td className="actions-global">
-                    <button onClick={() => openEditModal(rol)} className="btn-edit-global">
-                      <FaEdit />
-                    </button>
-                    <button onClick={() => openDeleteModal(rol)} className="btn-delete-global">
-                      <FaTrash />
-                    </button>
+        <div className="table-wrapper">
+          <table className="table-global">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th className="column-actions">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedData.length > 0 ? (
+                paginatedData.map((rol, index) => (
+                  <tr key={rol.id}>
+                    <td>{startIndex + index + 1}</td>
+                    <td>{rol.nombre}</td>
+                    <td className="actions-global">
+                      <button onClick={() => openEditModal(rol)} className="btn-edit-global">
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => openDeleteModal(rol)} className="btn-delete-global">
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={3} className="no-data-global">
+                    No se encontraron datos
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={3} className="no-data-global">
-                  No se encontraron datos
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Paginación */}
-      <div className="pagination-global">
-        <button
-          onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </button>
-        <span>
-          Página {currentPage} de {totalPages}
-        </span>
-        <button
-          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Siguiente
-        </button>
-      </div>
-
-      {/* MODAL EDITAR */}
-      {showEditModal && selectedRol && (
-        <div className="modal-global">
-          <div className="modal-content-global">
-            <h2 className="modal-title-global">Editar</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdate();
-              }}
-            >
-              <div className="form-group-global">
-                <label>Nombre</label>
-                <input
-                  type="text"
-                  value={editNombre}
-                  onChange={(e) => setEditNombre(e.target.value)}
-                  className="input-global"
-                />
-              </div>
-              <div className="modal-buttons-global">
-                <button type="button" onClick={() => setShowEditModal(false)} className="btn-cancel-global">
-                  Cancelar
-                </button>
-                <button type="submit" className="btn-submit-global">Guardar</button>
-              </div>
-            </form>
-          </div>
+              )}
+            </tbody>
+          </table>
         </div>
-      )}
 
-      {/* MODAL ELIMINAR */}
-      {showDeleteModal && selectedRol && (
-        <div className="modal-global">
-          <div className="modal-content-global">
-            <h2 className="modal-title-global">Eliminar</h2>
-            <p>
-              ¿Seguro que deseas eliminar: <b>{selectedRol.nombre}</b>?
-            </p>
-            <div className="modal-buttons-global">
-              <button onClick={() => setShowDeleteModal(false)} className="btn-cancel-global">Cancelar</button>
-              <button onClick={handleDelete} className="btn-delete-global">Eliminar</button>
+        {/* Paginación */}
+        <div className="pagination-global">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Anterior
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Siguiente
+          </button>
+        </div>
+
+        {/* MODAL EDITAR */}
+        {showEditModal && selectedRol && (
+          <div className="modal-global">
+            <div className="modal-content-global">
+              <h2 className="modal-title-global">Editar</h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleUpdate();
+                }}
+              >
+                <div className="form-group-global">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    value={editNombre}
+                    onChange={(e) => setEditNombre(e.target.value)}
+                    className="input-global"
+                  />
+                </div>
+                <div className="modal-buttons-global">
+                  <button type="button" onClick={() => setShowEditModal(false)} className="btn-cancel-global">
+                    Cancelar
+                  </button>
+                  <button type="submit" className="btn-submit-global">Guardar</button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* MODAL ELIMINAR */}
+        {showDeleteModal && selectedRol && (
+          <div className="modal-global">
+            <div className="modal-content-global">
+              <h2 className="modal-title-global">Eliminar</h2>
+              <p>
+                ¿Seguro que deseas eliminar: <b>{selectedRol.nombre}</b>?
+              </p>
+              <div className="modal-buttons-global">
+                <button onClick={() => setShowDeleteModal(false)} className="btn-cancel-global">Cancelar</button>
+                <button onClick={handleDelete} className="btn-delete-global">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

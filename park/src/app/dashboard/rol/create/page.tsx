@@ -31,7 +31,7 @@ export default function CreateRolPage() {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-create-container">
       <div className="form-container-global">
         <h1 className="modal-title-global">Crear Rol</h1>
 
