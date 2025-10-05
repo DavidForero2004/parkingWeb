@@ -7,6 +7,8 @@ export default function DashboardPage() {
   
     useEffect(() => {
       const data = sessionStorage.getItem("data");
+      const token = localStorage.getItem("token");     
+      if (!token) return;
       if (data) {
         const parsed = JSON.parse(data);
         setNombre(parsed.user);

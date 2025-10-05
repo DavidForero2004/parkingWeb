@@ -16,7 +16,7 @@ export default function FormLogin({ numberPark, titlePark }: FormLoginProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const { showToast } = useToast(); 
+  const { showToast } = useToast();
 
   useEffect(() => {
     localStorage.setItem("park", numberPark.toString());
@@ -40,9 +40,11 @@ export default function FormLogin({ numberPark, titlePark }: FormLoginProps) {
         localStorage.setItem("token_createdAt", now.toString());
         sessionStorage.setItem("data", JSON.stringify(data.user));
 
-        showToast("Has iniciado sesión correctamente", "success");
-        router.push("/dashboard");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 10);
       }
+      showToast("Has iniciado sesión correctamente", "success");
     } catch {
       //console.error("Error al iniciar sesión:", error);
       showToast("Usuario o contraseña incorrectos", "error");
@@ -51,13 +53,18 @@ export default function FormLogin({ numberPark, titlePark }: FormLoginProps) {
 
   return (
     <>
-     
       <div className="login-container flex items-center justify-center min-h-screen ">
         <div className="login-card p-8 rounded-lg shadow-md w-full max-w-md">
           <h1 className="text-2xl font-bold mb-6">{titlePark}</h1>
-          <form id="loginForm" onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form
+            id="loginForm"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4"
+          >
             <div className="flex flex-col">
-              <label htmlFor="email" className="mb-1 font-medium">Email address</label>
+              <label htmlFor="email" className="mb-1 font-medium">
+                Email address
+              </label>
               <input
                 type="email"
                 id="email"
@@ -70,7 +77,9 @@ export default function FormLogin({ numberPark, titlePark }: FormLoginProps) {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="password" className="mb-1 font-medium">Password</label>
+              <label htmlFor="password" className="mb-1 font-medium">
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
@@ -91,9 +100,13 @@ export default function FormLogin({ numberPark, titlePark }: FormLoginProps) {
           </form>
 
           <div className="options flex justify-center items-center mt-4 text-sm text-gray-600 gap-2">
-            <Link href="/recovery" className="hover:underline">Ir a Recovery</Link>
+            <Link href="/recovery" className="hover:underline">
+              Ir a Recovery
+            </Link>
             <span>•</span>
-            <a href="#" className="hover:underline">Create an account</a>
+            <a href="#" className="hover:underline">
+              Create an account
+            </a>
           </div>
         </div>
       </div>
